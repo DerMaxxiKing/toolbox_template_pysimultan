@@ -15,10 +15,16 @@ class Class1DetailView(ComponentDetailBaseView):
         super().ui_content(*args, **kwargs)
 
         ui.label('attr1:')
-        ui.label(self.component.attr1)
+        ui.input('attr1:').bind_value(self.component,
+                                                  target_name='attr1',
+                                                  forward=lambda x: float(x),
+                                                  backward=lambda x: str(x))
 
         ui.label('attr2:')
-        ui.label(self.component.attr2)
+        ui.input('attr2:').bind_value(self.component,
+                                                  target_name='attr2',
+                                                  forward=lambda x: float(x),
+                                                  backward=lambda x: str(x))
 
         ui.label('attr3:')
         ui.label(self.component.attr3)

@@ -7,6 +7,7 @@
 - [Overview](#overview)
 - [How does it work?](#how-does-it-work)
 - [Package Structure](#package-structure)
+- [Clone the repository](#clone-the-repository)
 - [Template Package Structure](#template-package-structure)
 - [Mapper](#mapper)
   * [Mapping a class](#mapping-a-class)
@@ -54,6 +55,15 @@ A package which can be used as a toolbox for PySimultanUI must provide at least 
 
 Additionally, a method_mapper and a view_manager can be provided, which must be importable using
 `from <package> import method_mapper` and `from <package> import view_manager`, respectively.
+
+
+## Clone the repository
+To clone the repository and use the template package as a starting point for creating a new toolbox, the following command
+can be used:
+
+```console
+git clone https://github.com/DerMaxxiKing/toolbox_template_pysimultan.git
+```
 
 
 ## Template Package Structure
@@ -193,7 +203,7 @@ method_mapper.register_method(
     method=my_function,
     add_data_model_to_kwargs=True,
     add_user_to_kwargs=True,
-    kwargs={'io_bound': False}
+    io_bound=False,
 )
 
 
@@ -210,7 +220,7 @@ method_mapper.register_method(
     add_data_model_to_kwargs=False,
     add_user_to_kwargs=False,
     args=[],
-    kwargs={'io_bound': False}
+    io_bound=False
 )
 ```
 
@@ -257,11 +267,18 @@ class Class1DetailView(ComponentDetailBaseView):
     def ui_content(self, *args, **kwargs):
         super().ui_content(*args, **kwargs)
 
+        # Add the attributes of the instance to the UI, see nicegui documentation for more information
         ui.label('attr1:')
-        ui.label(self.component.attr1)
+        ui.input('attr1:').bind_value(self.component,
+                                                  target_name='attr1',
+                                                  forward=lambda x: float(x),
+                                                  backward=lambda x: str(x))
 
         ui.label('attr2:')
-        ui.label(self.component.attr2)
+        ui.input('attr2:').bind_value(self.component,
+                                                  target_name='attr2',
+                                                  forward=lambda x: float(x),
+                                                  backward=lambda x: str(x))
 
         ui.label('attr3:')
         ui.label(self.component.attr3)
